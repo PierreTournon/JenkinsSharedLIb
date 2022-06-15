@@ -1,8 +1,9 @@
-/*
-Associe les esclaves aux noms des tests qu'ils doivent exécuter
-param testNames : noms des tests à associer 
-param slavesAvailable : noms des esclaves
-return distribution : HashMap associant chaque noms d'esclave aux noms de tests qu'il doit effectuer
+/**
+*Associe les esclaves aux noms des tests qu'ils doivent exécuter selon un algorithme de distribution.
+*
+*@param testNames Tableau des noms de test à associer.
+*@param slavesAvailable Tableau des noms d'esclave disponibles.
+*@return distribution HashMap associant chaque nom d'esclave aux noms des tests qu'il doit effectuer.
 */
 Map<String, List<String>> distribute (String[] testNames, String[] slavesAvailable) {
     
@@ -47,7 +48,11 @@ Map<String, List<String>> distribute (String[] testNames, String[] slavesAvailab
     return distribution;
 }
 
-//Méthode renvoyant la liste des esclaves disponibles
+/**
+*Cherche, dans le réservoir d'esclaves du serveur Jenkins, les esclaves disponibles pour exécuter des tests.
+*
+*@return freeNodes Tableau des noms d'esclaves disponibles pour exécuter des tests.
+*/
 String[] slavesReady () {
     String[] freeNodes = [];
     //On recherche noeud qui soit en ligne parmis la liste de noeud dont dispose notre serveur Jenkins 
