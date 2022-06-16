@@ -64,14 +64,14 @@ void createDir (String path) {
 /**
 *Crée un fichier texte faisant office de rapport de test. 
 *Ce rapport est construit en fonction de fichiers texte indiquant des résultats de tests.
+*On part du principe que l'exécutable se trouve dans le repertoire courant
 *
 *@param exeName Nom de l'exécutable qui se charge de construire le rapport en fonctions des fichiers récupérés.
-*@param pathToExe Chemin vers le dossier où se trouve l'exécutable construisant le rapport.
 *@param pathToReportDir Chemin vers le dossier où sera déposé le rapport généré par l'exécutable.
 *@param pathToResultsDir Chemin vers le dossier contenant les résultats de test à récupérer pour construire le rapport.
 */
-void buildReportAndArchive (String exeName, String pathToExe, String pathToReportDir, String pathToResultsDir) {
-    StringBuilder cmd = new StringBuilder("cd "+pathToExe+"\n"+exeName+" "+pathToReportDir+" ");
+void buildReportAndArchive (String exeName, String pathToReportDir, String pathToResultsDir) {
+    StringBuilder cmd = new StringBuilder(exeName+" "+pathToReportDir+" ");
      
     dir(pathToResultsDir) {
         def files = findFiles()
@@ -80,7 +80,14 @@ void buildReportAndArchive (String exeName, String pathToExe, String pathToRepor
         }
     }
     
-    bat cmd.toString();
+    try {
+        bat cmd.toString();
+    }
+    catch (Exception e) {
+        e.printStackTrace();
+        println("Erreur : impossible de lancer l'exécutable. Peut être que l'exécutable n'existe pas.")
+    }
+    
     
     dir(pathToReportDir) {
         archiveArtifacts artifacts: '**'
