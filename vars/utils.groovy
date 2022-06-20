@@ -114,3 +114,44 @@ void cleanDirTotally () {
     }
     
 }
+
+/**
+*Récupère (clone) un dépôt distant Git dans le workspace courant de Jenkins.
+*
+*@param branchName Nom de la branche du dépôt que l'on va récupérer
+*@param url Lien du dépôt Git
+*@param credentials Crédits (token) pour autoriser la récupération dépôt.
+*/
+void retreiveDependencies (String branchName, String url, String credentials) {
+    git branch: branchName, 
+    url: url, 
+    credentialsId: credentials
+}
+
+
+/**
+*Compile le code récupéré et stash l'exécutable généré. 
+*
+*/
+ArrayList<String> createAndStashArtifacts () {
+    retreiveDependencies("tmp", "https://github.com/PierreTournon/Mock-for-unit-tests.git", "github_creds");
+    List<String> artifactsNames = new ArrayList<String>();
+    String mockStashName = "MockStash";
+    artifactsNames.add(mockStashName);
+    
+    dir ('Mock') {
+        bat "csc Mock.cs TestNotFoundException.cs" 
+        stash includes: 'Mock.exe', name: mockStashName
+    }
+    
+    return artifactsNames;
+}
+
+/**
+*Récupère (unstash) les artéfacts.
+*/
+void retreiveArtifacts (List<String> artifacts) {
+    for(str in artifacts) {
+        unstash str
+    }
+}
