@@ -130,18 +130,17 @@ void retreiveDependencies (String branchName, String url, String credentials) {
 
 
 /**
-*Compile le code récupéré et stash l'exécutable généré. 
+*Stash les fichiers passés en entrée et renvoie une liste des noms de stash associés à chaque stash de fichier. 
 *
+*@param filesToStash Un suite de noms de fichiers présents relativement à l'appel de la méthode.
+*@return artifactsNames Liste des noms associés à chacun des stash.
 */
-ArrayList<String> createAndStashArtifacts () {
-    retreiveDependencies("tmp", "https://github.com/PierreTournon/Mock-for-unit-tests.git", "github_creds");
+ArrayList<String> stashArtifacts (String... filesToStash) {
     List<String> artifactsNames = new ArrayList<String>();
-    String mockStashName = "MockStash";
-    artifactsNames.add(mockStashName);
-    
-    dir ('Mock') {
-        bat "csc Mock.cs TestNotFoundException.cs" 
-        stash includes: 'Mock.exe', name: mockStashName
+    for(int i = 0; i < filesToStash.size(); i++) {
+        String stashName = "ArtifactStash"+i;
+        stash includes: filesToStash[i], name: stashName
+        artifactsNames.add(stashName);
     }
     
     return artifactsNames;
