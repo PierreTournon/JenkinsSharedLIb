@@ -48,6 +48,23 @@ Map<String, List<String>> distribute (String[] testNames, String[] slavesAvailab
     return distribution;
 }
 
+//TODO La linkedList ne sera peut être pas adaptée pour stocker les tests à l'avenir (quand il faudra les sélectionner selon des critères)
+/**
+*Associe les escalves à des queues contenant des tests à exécuter.
+*
+*@param distribution Associe un nom d'esclave à une queue de noms de test.
+*@param tq Tests queue (queue de tests) contenant les tests pas encore affecté à un esclave.
+*/
+void distribute (Map<String, LinkedList<String>> distribution, LinkedList<String> tq) {
+    for(String key in distribution.keySet()) {
+        if(tq.isEmpty())
+            break;
+        else if (distribution.get(key).isEmpty()) {
+            distribution.get(key).add(tq.remove());
+        }
+    }
+}
+
 /**
 *Cherche, dans le réservoir d'esclaves du serveur Jenkins, les esclaves disponibles pour exécuter des tests.
 *
