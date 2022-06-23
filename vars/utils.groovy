@@ -43,25 +43,6 @@ void retreiveResultsAndArchive (String pathToDest, List<String> stashes) {
 }
 
 /**
-*Crée un dossier vide selon le chemin passé en paramètre.
-*
-*@param path Chemin du dossier à créer.
-*/
-void createDir (String path) {
-    try{
-        bat "if exist "+path+" rmdir /s /q "+path
-        bat "mkdir "+path
-        /*File dir = new File(path);
-        if(!dir.isDirectory() && !dir.exists())
-            throw new Exception();*/
-    }
-    catch (Exception e) {
-        e.printStackTrace();s
-        println("Impossible de créer le dossier")
-    }
-}
-
-/**
 *Crée un fichier texte faisant office de rapport de test. 
 *Ce rapport est construit en fonction de fichiers texte indiquant des résultats de tests.
 *On part du principe que l'exécutable se trouve dans le repertoire courant
