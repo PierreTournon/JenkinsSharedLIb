@@ -51,12 +51,12 @@ void createDir (String path) {
     try{
         bat "if exist "+path+" rmdir /s /q "+path
         bat "mkdir "+path
-        File dir = new File(path);
+        /*File dir = new File(path);
         if(!dir.isDirectory() && !dir.exists())
-            throw new Exception();
+            throw new Exception();*/
     }
     catch (Exception e) {
-        e.printStackTrace();
+        e.printStackTrace();s
         println("Impossible de créer le dossier")
     }
 }
